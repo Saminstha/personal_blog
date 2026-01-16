@@ -3,12 +3,30 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
+
+        {% if form.errors and form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
         
         <label for="username" class="form-label">Username</label>
-        <input type="text" name="username" id="username" class="form-control">
+        {% if form.username.errors %}
+            <div class="alert alert-danger">
+                {{ form.username.errors }}
+            </div>
+        {% endif %}
+        <input type="text" name="username" id="username" class="form-control"
+               value="{{ form.username.value|default_if_none:'' }}">
         
         <label for="password" class="form-label">Password</label>
-        <input type="password" name="password" id="password" class="form-control">
+        {% if form.password.errors %}
+            <div class="alert alert-danger">
+                {{ form.password.errors }}
+            </div>
+        {% endif %}
+        <input type="password" name="password" id="password" class="form-control"
+               value="{{ form.password.value|default_if_none:'' }}">
         
         <button type="submit" class="btn btn-primary mt-2">Login</button>
     </form>
