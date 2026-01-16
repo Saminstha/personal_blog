@@ -17,11 +17,23 @@ def post_detail(request, pk):
         'post_detail.html',
         {'post': post},
     )
-    
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def draft_list(request):
     posts= Post.objects.filter(published_at__isnull=True)
     return render(
         request, 
         'draft_list.html', 
         {'posts': posts},
+    )
+
+@login_required   
+def draft_detail(request, pk):
+    post = Post.objects.get(pk=pk, published_at__isnull=True)
+    return render(
+        request,
+        'draft_detail.html',
+        {'post': post},
     )
